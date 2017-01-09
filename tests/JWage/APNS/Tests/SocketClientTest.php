@@ -77,7 +77,7 @@ class SocketClientTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException ErrorException
-     * @expectedExceptionMessage Failed to create stream socket client to "ssl://somethingthatdoesnotexist:100". php_network_getaddresses: getaddrinfo failed: Name or service not known
+     * @expectedExceptionMessageRegExp /Failed to create stream socket client to "ssl:\/\/somethingthatdoesnotexist:100". php_network_getaddresses: getaddrinfo failed: (Name or service|nodename nor servname provided, or) not known/
      */
     public function testConnectThrowsException()
     {
