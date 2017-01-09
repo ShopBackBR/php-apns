@@ -30,16 +30,23 @@ class Package
     /**
      * @var string
      */
+    private $clientId;
+
+    /**
+     * @var string
+     */
     private $zipPath;
 
     /**
      * @param string $packageDir
      * @param string $userId
+     * @param string $clientId
      */
-    public function __construct($packageDir, $userId)
+    public function __construct($packageDir, $userId, $clientId)
     {
         $this->packageDir = $packageDir;
         $this->userId = $userId;
+        $this->clientId = $clientId;
         $this->zipPath = sprintf('%s.zip', $packageDir);
     }
 
@@ -61,6 +68,16 @@ class Package
     public function getUserId()
     {
         return $this->userId;
+    }
+
+    /**
+     * Gets the client id this package is for.
+     *
+     * @return string $userId
+     */
+    public function getClientId()
+    {
+        return $this->clientId;
     }
 
     /**

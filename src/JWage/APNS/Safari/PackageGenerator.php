@@ -44,6 +44,11 @@ class PackageGenerator
     protected $pushSubDomain;
 
     /**
+     * @var string
+     */
+    protected $clientId;
+
+    /**
      * Construct.
      *
      * @param \JWage\APNS\Certificate $certificate
@@ -76,12 +81,13 @@ class PackageGenerator
      * Create a safari website push notification package for the given User.
      *
      * @param string $userId User id to create package for.
+     * * @param string $clientId Client id to create package for.
      * @return \JWage\APNS\Safari\Package $package Package instance.
      */
-    public function createPushPackageForUser($userId)
+    public function createPushPackageForUser($userId, $clientId)
     {
         $packageDir = sprintf('/%s/pushPackage%s.%s', sys_get_temp_dir(), time(), $userId);
-        $package = $this->createPackage($packageDir, $userId);
+        $package = $this->createPackage($packageDir, $userId, $clientId);
 
         $this->generatePackage($package);
 
@@ -140,6 +146,7 @@ class PackageGenerator
             if ($rawFile === 'website.json') {
                 $websiteJson = file_get_contents($filePath);
                 $websiteJson = str_replace('{{ userId }}', $package->getUserId(), $websiteJson);
+                $websiteJson = str_replace('{{ clientId }}', $package->getClientId(), $websiteJson);
                 $websiteJson = str_replace('{{ host }}', $this->host, $websiteJson);
                 $websiteJson = str_replace('{{ pushSubDomain }}', $this->pushSubDomain, $websiteJson);
                 $websiteJson = str_replace('{{ websiteName }}', $this->websiteName, $websiteJson);
@@ -181,9 +188,10 @@ class PackageGenerator
     /**
      * @param string $packageDir
      * @param string $userId
+     * @param string $clientId
      */
-    protected function createPackage($packageDir, $userId)
+    protected function createPackage($packageDir, $userId, $clientId)
     {
-        return new Package($packageDir, $userId);
+        return new Package($packageDir, $userId, $clientId);
     }
 }
