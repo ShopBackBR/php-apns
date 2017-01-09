@@ -39,11 +39,17 @@ class PackageGenerator
     protected $webServiceHost;
 
     /**
+     * @var string
+     */
+    protected $pushSubDomain;
+
+    /**
      * Construct.
      *
      * @param \JWage\APNS\Certificate $certificate
      * @param string $basePushPackagePath
      * @param string $host
+     * @param string $pushSubDomain;
      * @param string $websiteName
      * @param string $websitePushId
      * @param string $webServiceHost
@@ -52,16 +58,18 @@ class PackageGenerator
         Certificate $certificate,
         $basePushPackagePath,
         $host,
+        $pushSubDomain,
         $websiteName = '',
         $websitePushId = '',
-        $webServiceHost = null 
+        $webServiceHost = null
     ) {
         $this->certificate = $certificate;
         $this->basePushPackagePath = $basePushPackagePath;
         $this->host = $host;
+        $this->pushSubDomain = $pushSubDomain;
         $this->websiteName = $websiteName;
         $this->websitePushId = $websitePushId;
-        $this->webServiceHost = $webServiceHost ? $webServiceHost : $host; 
+        $this->webServiceHost = $webServiceHost ? $webServiceHost : $host;
     }
 
     /**
@@ -133,6 +141,7 @@ class PackageGenerator
                 $websiteJson = file_get_contents($filePath);
                 $websiteJson = str_replace('{{ userId }}', $package->getUserId(), $websiteJson);
                 $websiteJson = str_replace('{{ host }}', $this->host, $websiteJson);
+                $websiteJson = str_replace('{{ pushSubDomain }}', $this->pushSubDomain, $websiteJson);
                 $websiteJson = str_replace('{{ websiteName }}', $this->websiteName, $websiteJson);
                 $websiteJson = str_replace('{{ websitePushId }}', $this->websitePushId, $websiteJson);
                 $websiteJson = str_replace('{{ webServiceHost }}', $this->webServiceHost, $websiteJson);
