@@ -4,5 +4,5 @@
     "allowedDomains": ["http://{{ host }}", "https://{{ host }}", "https://{{ pushSubDomain }}.pushdomain.com"],
     "urlFormatString": "http://{{ host }}/%@",
     "authenticationToken": "{{ userId }}",
-    "webServiceURL": "https://{{ webServiceHost }}/safari_push_notifications/{{ userId }}"
+    "webServiceURL": "https://{{ webServiceHost }}/safari_push_notifications/{{ clientId }}/{{ userId }}"
 }
