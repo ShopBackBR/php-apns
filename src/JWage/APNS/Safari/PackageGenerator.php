@@ -71,7 +71,7 @@ class PackageGenerator
         $this->certificate = $certificate;
         $this->basePushPackagePath = $basePushPackagePath;
         $this->host = $host;
-        $this->pushSubDomain = $pushSubDomain;
+        $this->pushSubDomain = $pushSubDomain ? $pushSubDomain : $host;
         $this->websiteName = $websiteName;
         $this->websitePushId = $websitePushId;
         $this->webServiceHost = $webServiceHost ? $webServiceHost : $host;
