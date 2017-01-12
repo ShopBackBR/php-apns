@@ -21,7 +21,7 @@ class PackageGeneratorTest extends PHPUnit_Framework_TestCase
 
         $this->certificate = new Certificate('', 'password');
         $this->packageGenerator = new PackageGeneratorStub(
-            $this->certificate, $this->basePushPackagePath, 'host.com', 'host', 'WebsiteName', 'web.com.domain', 'api.host.com'
+            $this->certificate, $this->basePushPackagePath, 'host.com', false, 'WebsiteName', 'web.com.domain', 'api.host.com'
         );
     }
 
@@ -53,7 +53,7 @@ class PackageGeneratorTest extends PHPUnit_Framework_TestCase
                 'icon.iconset/icon_32x32@2x.png' => 'da343420793428ad803d7ae435e76e3293e60f21',
                 'icon.iconset/icon_128x128.png' => 'c958eb6f34a5f6455d2f4b3c85b3bcde30208b4e',
                 'icon.iconset/icon_128x128@2x.png' => '529d000f332ad65d284db541a7b5955fa03fb9e7',
-                'website.json' => '58118d31028a72198cc8a2bda06c413bd8b42edb',
+                'website.json' => '2fa085277e792af465bf4ab4ae3bde1e7118c5b6',
             );
             $this->assertEquals(json_encode($expectedManifest), file_get_contents($manifestJsonPath));
 
@@ -64,7 +64,7 @@ class PackageGeneratorTest extends PHPUnit_Framework_TestCase
 '{
     "websiteName": "WebsiteName",
     "websitePushID": "web.com.domain",
-    "allowedDomains": ["http://host.com", "https://host.com", "https://host.pushdomain.com"],
+    "allowedDomains": ["http://host.com", "https://host.com", "https://host.com"],
     "urlFormatString": "http://host.com/%@",
     "authenticationToken": "userId",
     "webServiceURL": "https://api.host.com/safari_push_notifications/clientId/userId"
