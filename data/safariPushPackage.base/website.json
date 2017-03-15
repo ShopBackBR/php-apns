@@ -1,7 +1,7 @@
 {
     "websiteName": "{{ websiteName }}",
     "websitePushID": "{{ websitePushId }}",
-    "allowedDomains": ["http://{{ host }}", "https://{{ host }}", "https://{{ pushSubDomain }}"],
+    "allowedDomains": ["http://{{ host }}", "https://{{ host }}", {{ pushSubDomain }}],
     "urlFormatString": "http://{{ host }}/%@",
     "authenticationToken": "{{ userId }}",
     "webServiceURL": "https://{{ webServiceHost }}/safari_push_notifications/{{ clientId }}/{{ userId }}"
