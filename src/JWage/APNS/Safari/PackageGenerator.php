@@ -12,30 +12,37 @@ class PackageGenerator
      * @var \JWage\APNS\Certificate
      */
     protected $certificate;
+
     /**
      * @var string
      */
     protected $basePushPackagePath;
+
     /**
      * @var string
      */
     protected $host;
+
     /**
      * @var string
      */
     protected $websiteName;
+
     /**
      * @var string
      */
     protected $websitePushId;
+
     /**
      * @var string
      */
     protected $webServiceHost;
+
     /**
      * @var string
      */
     protected $pushSubDomains;
+
     /**
      * @var string
      */

@@ -22,7 +22,7 @@ class Certificate
      */
     public function __construct($certificateString, $password = null)
     {
-        $this->certificateString =  (string) $certificateString;
+        $this->certificateString = (string)$certificateString;
         $this->password = $password;
     }
 
@@ -47,16 +47,6 @@ class Certificate
     }
 
     /**
-     * Writes the certificate to the given file path.
-     *
-     * @param string $path
-     */
-    public function writeTo($path)
-    {
-        file_put_contents($path, $this->certificateString);
-    }
-
-    /**
      * Writes the certificate to a temporary file and returns the path.
      *
      * @return string $path
@@ -68,6 +58,16 @@ class Certificate
         $this->writeTo($path);
 
         return $path;
+    }
+
+    /**
+     * Writes the certificate to the given file path.
+     *
+     * @param string $path
+     */
+    public function writeTo($path)
+    {
+        file_put_contents($path, $this->certificateString);
     }
 
     /**

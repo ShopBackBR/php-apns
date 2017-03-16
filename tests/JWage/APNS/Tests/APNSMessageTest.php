@@ -9,15 +9,10 @@ use PHPUnit\Framework\TestCase;
 class APNSMessageTest extends TestCase
 {
     private $deviceToken;
-    private $payload;
-    private $apnsMessage;
 
-    protected function setUp()
-    {
-        $this->deviceToken = '97213C2CA2146AF258B098611394FD6943FA730FF65E6797A85D3A0DC713A84C';
-        $this->payload = new Payload('title', 'body', 'deep link');
-        $this->apnsMessage = new APNSMessage($this->deviceToken, $this->payload);
-    }
+    private $payload;
+
+    private $apnsMessage;
 
     public function testGetBinaryMessage()
     {
@@ -33,11 +28,18 @@ class APNSMessageTest extends TestCase
     {
         $encodedPayload = json_encode($payload);
 
-        return chr(0).
-               chr(0).
-               chr(32).
-               pack('H*', $deviceToken).
-               chr(0).chr(strlen($encodedPayload)).
-               $encodedPayload;
+        return chr(0) .
+            chr(0) .
+            chr(32) .
+            pack('H*', $deviceToken) .
+            chr(0) . chr(strlen($encodedPayload)) .
+            $encodedPayload;
+    }
+
+    protected function setUp()
+    {
+        $this->deviceToken = '97213C2CA2146AF258B098611394FD6943FA730FF65E6797A85D3A0DC713A84C';
+        $this->payload = new Payload('title', 'body', 'deep link');
+        $this->apnsMessage = new APNSMessage($this->deviceToken, $this->payload);
     }
 }
