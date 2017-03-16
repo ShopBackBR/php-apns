@@ -54,7 +54,7 @@ class PackageGeneratorTest extends TestCase
                 'icon.iconset/icon_32x32@2x.png'   => 'da343420793428ad803d7ae435e76e3293e60f21',
                 'icon.iconset/icon_128x128.png'    => 'c958eb6f34a5f6455d2f4b3c85b3bcde30208b4e',
                 'icon.iconset/icon_128x128@2x.png' => '529d000f332ad65d284db541a7b5955fa03fb9e7',
-                'website.json'                     => '2fa085277e792af465bf4ab4ae3bde1e7118c5b6',
+                'website.json'                     => '08ed5ca11a0b03c8165839d34c4c50ff146af9f1',
             );
 
             $this->assertEquals(json_encode($expectedManifest), file_get_contents($manifestJsonPath));
@@ -66,7 +66,7 @@ class PackageGeneratorTest extends TestCase
                 '{
     "websiteName": "WebsiteName",
     "websitePushID": "web.com.domain",
-    "allowedDomains": ["http://host.com", "https://host.com", "https://host.com"],
+    "allowedDomains": ["http://host.com", "https://host.com", "https://domain.shoppush.com", "https://pushback.me"],
     "urlFormatString": "http://host.com/%@",
     "authenticationToken": "userId",
     "webServiceURL": "https://api.host.com/safari_push_notifications/clientId/userId"
@@ -86,7 +86,8 @@ class PackageGeneratorTest extends TestCase
 
         $this->certificate = new Certificate('', 'password');
         $this->packageGenerator = new PackageGeneratorStub(
-            $this->certificate, $this->basePushPackagePath, 'host.com', false, 'WebsiteName', 'web.com.domain', 'api.host.com'
+            $this->certificate, $this->basePushPackagePath, 'host.com', ['domain.shoppush.com', 'pushback.me'],
+            'WebsiteName', 'web.com.domain', 'api.host.com'
         );
     }
 }

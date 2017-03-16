@@ -9,7 +9,7 @@ use ZipArchive;
 class PackageGenerator
 {
     /**
-     * @var \JWage\APNS\Certificate
+     * @var Certificate
      */
     protected $certificate;
 
@@ -51,7 +51,7 @@ class PackageGenerator
     /**
      * Construct.
      *
-     * @param \JWage\APNS\Certificate $certificate
+     * @param Certificate $certificate
      * @param string $basePushPackagePath
      * @param string $host
      * @param mixed $pushSubDomains ;
@@ -92,12 +92,12 @@ class PackageGenerator
             $temporaryPushSubDomains = array($default);
         }
 
-        $isMultiple = count($value) == 1;
+        $items = count($value);
 
-        $temporaryPushSubDomains = array_map(function ($value) use ($isMultiple) {
+        $temporaryPushSubDomains = array_map(function ($value) use (&$items) {
             $newValue = (substr_count($value, 'http') > 0) ? "\"$value\"" : "\"https://$value\"";
 
-            return $isMultiple ? $newValue : "$newValue, ";
+            return --$items > 0 ? "$newValue, ": $newValue;
         }, $temporaryPushSubDomains);
 
         $temporaryPushSubDomains = join("", $temporaryPushSubDomains);
@@ -114,7 +114,7 @@ class PackageGenerator
      *
      * @param string $userId User id to create package for.
      * * @param string $clientId Client id to create package for.
-     * @return \JWage\APNS\Safari\Package $package Package instance.
+     * @return Package $package Package instance.
      */
     public function createPushPackageForUser($userId, $clientId)
     {
@@ -130,6 +130,7 @@ class PackageGenerator
      * @param string $packageDir
      * @param string $userId
      * @param string $clientId
+     * @return Package
      */
     protected function createPackage($packageDir, $userId, $clientId)
     {
