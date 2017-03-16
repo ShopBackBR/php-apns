@@ -2,11 +2,11 @@
 
 namespace JWage\APNS\Tests;
 
-use PHPUnit_Framework_TestCase;
 use JWage\APNS\Certificate;
 use JWage\APNS\SocketClient;
+use PHPUnit\Framework\TestCase;
 
-class SocketClientTest extends PHPUnit_Framework_TestCase
+class SocketClientTest extends TestCase
 {
     private $testPath;
     private $certificate;

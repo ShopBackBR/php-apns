@@ -2,11 +2,11 @@
 
 namespace JWage\APNS\Tests;
 
-use PHPUnit_Framework_TestCase;
 use JWage\APNS\APNSMessage;
 use JWage\APNS\Payload;
+use PHPUnit\Framework\TestCase;
 
-class APNSMessageTest extends PHPUnit_Framework_TestCase
+class APNSMessageTest extends TestCase
 {
     private $deviceToken;
     private $payload;

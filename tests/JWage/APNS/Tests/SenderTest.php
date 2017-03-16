@@ -2,11 +2,11 @@
 
 namespace JWage\APNS\Tests;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;;
 use JWage\APNS\Payload;
 use JWage\APNS\Sender;
 
-class SenderTest extends PHPUnit_Framework_TestCase
+class SenderTest extends TestCase
 {
     private $client;
     private $sender;

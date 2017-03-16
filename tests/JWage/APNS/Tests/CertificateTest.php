@@ -2,10 +2,10 @@
 
 namespace JWage\APNS\Tests;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use JWage\APNS\Certificate;
 
-class CertificateTest extends PHPUnit_Framework_TestCase
+class CertificateTest extends TestCase
 {
     public function testGetCertificateString()
     {

@@ -6,10 +6,10 @@ use JWage\APNS\Certificate;
 use JWage\APNS\Safari\Package;
 use JWage\APNS\Safari\PackageGenerator;
 use JWage\APNS\Safari\PackageSigner;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use ZipArchive;
 
-class PackageGeneratorTest extends PHPUnit_Framework_TestCase
+class PackageGeneratorTest extends TestCase
 {
     private $basePushPackagePath;
     private $certificate;

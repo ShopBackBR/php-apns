@@ -3,7 +3,7 @@
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />
   <component name="PhpUnit">
     <phpunit_settings>
-      <PhpUnitSettings load_method="CUSTOM_LOADER" custom_loader_path="$PROJECT_DIR$/composer.json" phpunit_phar_path="/usr/local/bin/phpunit" />
+      <PhpUnitSettings load_method="CUSTOM_LOADER" custom_loader_path="$PROJECT_DIR$/composer.json" phpunit_phar_path="/usr/local/Cellar/phpunit/6.0.8/libexec/phpunit-6.0.8.phar" />
     </phpunit_settings>
   </component>
 </project>

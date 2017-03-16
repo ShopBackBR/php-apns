@@ -2,13 +2,13 @@
 
 namespace JWage\APNS\Tests;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use JWage\APNS\ApnsMessage;
 use JWage\APNS\Certificate;
 use JWage\APNS\Client;
 use JWage\APNS\Payload;
 
-class ClientTest extends PHPUnit_Framework_TestCase
+class ClientTest extends TestCase
 {
     private $socketClient;
 
