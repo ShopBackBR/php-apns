@@ -86,7 +86,7 @@ class PackageGeneratorTest extends TestCase
 
         $this->certificate = new Certificate('', 'password');
         $this->packageGenerator = new PackageGeneratorStub(
-            $this->certificate, $this->basePushPackagePath, 'host.com', ['domain.shoppush.com', 'pushback.me'],
+            $this->certificate, $this->basePushPackagePath, 'host.com', array('domain.shoppush.com', 'pushback.me'),
             'WebsiteName', 'web.com.domain', 'api.host.com'
         );
     }
