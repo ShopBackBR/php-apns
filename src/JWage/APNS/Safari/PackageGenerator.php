@@ -80,9 +80,9 @@ class PackageGenerator
     private function formatPushSubDomains($value, $default, $toPrintOut = false)
     {
         if ($value) {
-            $temporaryPushSubDomains = is_array($value) ? $value : [$value];
+            $temporaryPushSubDomains = is_array($value) ? $value : array($value);
         } else {
-            $temporaryPushSubDomains = [$default];
+            $temporaryPushSubDomains = array($default);
         }
 
         $isMultiple = count($value) == 1;
