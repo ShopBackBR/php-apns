@@ -6,24 +6,25 @@ use JWage\APNS\Certificate;
 use JWage\APNS\Safari\Package;
 use JWage\APNS\Safari\PackageGenerator;
 use JWage\APNS\Safari\PackageSigner;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use ZipArchive;
 
-class PackageGeneratorTest extends PHPUnit_Framework_TestCase
+class PackageGeneratorTest extends TestCase
 {
+    /**
+     * @var string
+     */
     private $basePushPackagePath;
+
+    /**
+     * @var Certificate
+     */
     private $certificate;
+
+    /**
+     * @var PackageGenerator
+     */
     private $packageGenerator;
-
-    protected function setUp()
-    {
-        $this->basePushPackagePath = realpath(__DIR__.'/../../../../../data/safariPushPackage.base');
-
-        $this->certificate = new Certificate('', 'password');
-        $this->packageGenerator = new PackageGeneratorStub(
-            $this->certificate, $this->basePushPackagePath, 'host.com', false, 'WebsiteName', 'web.com.domain', 'api.host.com'
-        );
-    }
 
     public function testCreatePackageForUser()
     {
@@ -38,7 +39,7 @@ class PackageGeneratorTest extends PHPUnit_Framework_TestCase
             $zip->extractTo($extractTo);
             $zip->close();
 
-            $files = glob($extractTo.'/*');
+            $files = glob($extractTo . '/*');
             $this->assertEquals(4, count($files));
 
             $iconPath = sprintf('%s/icon.iconset', $extractTo);
@@ -47,24 +48,25 @@ class PackageGeneratorTest extends PHPUnit_Framework_TestCase
 
             $manifestJsonPath = sprintf('%s/manifest.json', $extractTo);
             $expectedManifest = array (
-                'icon.iconset/icon_16x16.png' => '6b192031f23d78db69155261257590cb81b1a6d7',
-                'icon.iconset/icon_16x16@2x.png' => '8de653dd0a03f2300f9756c79b0c8bce3abd922b',
-                'icon.iconset/icon_32x32.png' => 'a604fd29a5a7bce5d73fe08a75793e8903172c3f',
-                'icon.iconset/icon_32x32@2x.png' => 'da343420793428ad803d7ae435e76e3293e60f21',
-                'icon.iconset/icon_128x128.png' => 'c958eb6f34a5f6455d2f4b3c85b3bcde30208b4e',
+                'icon.iconset/icon_16x16.png'      => '6b192031f23d78db69155261257590cb81b1a6d7',
+                'icon.iconset/icon_16x16@2x.png'   => '8de653dd0a03f2300f9756c79b0c8bce3abd922b',
+                'icon.iconset/icon_32x32.png'      => 'a604fd29a5a7bce5d73fe08a75793e8903172c3f',
+                'icon.iconset/icon_32x32@2x.png'   => 'da343420793428ad803d7ae435e76e3293e60f21',
+                'icon.iconset/icon_128x128.png'    => 'c958eb6f34a5f6455d2f4b3c85b3bcde30208b4e',
                 'icon.iconset/icon_128x128@2x.png' => '529d000f332ad65d284db541a7b5955fa03fb9e7',
-                'website.json' => '2fa085277e792af465bf4ab4ae3bde1e7118c5b6',
+                'website.json'                     => '08ed5ca11a0b03c8165839d34c4c50ff146af9f1',
             );
+
             $this->assertEquals(json_encode($expectedManifest), file_get_contents($manifestJsonPath));
 
             $signaturePath = sprintf('%s/signature', $extractTo);
             $this->assertEquals('test signature', file_get_contents($signaturePath));
 
             $expectedWebsiteJson =
-'{
+                '{
     "websiteName": "WebsiteName",
     "websitePushID": "web.com.domain",
-    "allowedDomains": ["http://host.com", "https://host.com", "https://host.com"],
+    "allowedDomains": ["http://host.com", "https://host.com", "https://domain.shoppush.com", "https://pushback.me"],
     "urlFormatString": "http://host.com/%@",
     "authenticationToken": "userId",
     "webServiceURL": "https://api.host.com/safari_push_notifications/clientId/userId"
@@ -76,6 +78,17 @@ class PackageGeneratorTest extends PHPUnit_Framework_TestCase
         } else {
             $this->fail('Could not extract zip package');
         }
+    }
+
+    protected function setUp()
+    {
+        $this->basePushPackagePath = realpath(__DIR__ . '/../../../../../data/safariPushPackage.base');
+
+        $this->certificate = new Certificate('', 'password');
+        $this->packageGenerator = new PackageGeneratorStub(
+            $this->certificate, $this->basePushPackagePath, 'host.com', array('domain.shoppush.com', 'pushback.me'),
+            'WebsiteName', 'web.com.domain', 'api.host.com'
+        );
     }
 }
 

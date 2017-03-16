@@ -2,23 +2,17 @@
 
 namespace JWage\APNS\Tests;
 
-use PHPUnit_Framework_TestCase;
 use JWage\APNS\Certificate;
 use JWage\APNS\SocketClient;
+use PHPUnit\Framework\TestCase;
 
-class SocketClientTest extends PHPUnit_Framework_TestCase
+class SocketClientTest extends TestCase
 {
     private $testPath;
-    private $certificate;
-    private $socketClient;
 
-    protected function setUp()
-    {
-        $this->testPath = tempnam(sys_get_temp_dir(), 'tmp_');
-        $this->certificate = new Certificate('');
-        $this->socketClient = new SocketClientStub($this->certificate, 'host', 1234);
-        $this->socketClient->setTestPath($this->testPath);
-    }
+    private $certificate;
+
+    private $socketClient;
 
     public function testWrite()
     {
@@ -48,12 +42,12 @@ class SocketClientTest extends PHPUnit_Framework_TestCase
 
         $encodedPayload = json_encode($payload);
 
-        $payload = chr(0).
-               chr(0).
-               chr(32).
-               pack('H*', $deviceToken).
-               chr(0).chr(strlen($encodedPayload)).
-               $encodedPayload;
+        $payload = chr(0) .
+            chr(0) .
+            chr(32) .
+            pack('H*', $deviceToken) .
+            chr(0) . chr(strlen($encodedPayload)) .
+            $encodedPayload;
 
         // write binary string to file
         $path = sprintf('%s/php_apns_test_write_max_bytes', sys_get_temp_dir());
@@ -83,6 +77,14 @@ class SocketClientTest extends PHPUnit_Framework_TestCase
     {
         $socketClient = new SocketClient($this->certificate, 'somethingthatdoesnotexist', 100);
         $socketClient->write('test');
+    }
+
+    protected function setUp()
+    {
+        $this->testPath = tempnam(sys_get_temp_dir(), 'tmp_');
+        $this->certificate = new Certificate('');
+        $this->socketClient = new SocketClientStub($this->certificate, 'host', 1234);
+        $this->socketClient->setTestPath($this->testPath);
     }
 }
 

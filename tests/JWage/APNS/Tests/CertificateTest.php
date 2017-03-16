@@ -2,10 +2,10 @@
 
 namespace JWage\APNS\Tests;
 
-use PHPUnit_Framework_TestCase;
 use JWage\APNS\Certificate;
+use PHPUnit\Framework\TestCase;
 
-class CertificateTest extends PHPUnit_Framework_TestCase
+class CertificateTest extends TestCase
 {
     public function testGetCertificateString()
     {
@@ -28,12 +28,12 @@ class CertificateTest extends PHPUnit_Framework_TestCase
     public function testToString()
     {
         $certificate = new Certificate('test');
-        $this->assertEquals('test', (string) $certificate);
+        $this->assertEquals('test', (string)$certificate);
     }
 
     public function testWriteTo()
     {
-        $path = '/tmp/certificate_test_'.time();
+        $path = '/tmp/certificate_test_' . time();
         $certificate = new Certificate('test');
         $certificate->writeTo($path);
         $this->assertFileExists($path);

@@ -9,7 +9,7 @@ use ZipArchive;
 class PackageGenerator
 {
     /**
-     * @var \JWage\APNS\Certificate
+     * @var Certificate
      */
     protected $certificate;
 
@@ -41,7 +41,7 @@ class PackageGenerator
     /**
      * @var string
      */
-    protected $pushSubDomain;
+    protected $pushSubDomains;
 
     /**
      * @var string
@@ -51,10 +51,10 @@ class PackageGenerator
     /**
      * Construct.
      *
-     * @param \JWage\APNS\Certificate $certificate
+     * @param Certificate $certificate
      * @param string $basePushPackagePath
      * @param string $host
-     * @param string $pushSubDomain;
+     * @param mixed $pushSubDomains ;
      * @param string $websiteName
      * @param string $websitePushId
      * @param string $webServiceHost
@@ -63,18 +63,50 @@ class PackageGenerator
         Certificate $certificate,
         $basePushPackagePath,
         $host,
-        $pushSubDomain,
+        $pushSubDomains,
         $websiteName = '',
         $websitePushId = '',
         $webServiceHost = null
-    ) {
+    )
+    {
         $this->certificate = $certificate;
         $this->basePushPackagePath = $basePushPackagePath;
         $this->host = $host;
-        $this->pushSubDomain = $pushSubDomain ? $pushSubDomain : $host;
+        $this->pushSubDomains = $this->formatPushSubDomains($pushSubDomains, $host);
         $this->websiteName = $websiteName;
         $this->websitePushId = $websitePushId;
         $this->webServiceHost = $webServiceHost ? $webServiceHost : $host;
+    }
+
+    /**
+     * @param mixed $value
+     * @param string $default
+     * @param bool $toPrintOut Doesn't return the result, just echo it.
+     * @return mixed
+     */
+    private function formatPushSubDomains($value, $default, $toPrintOut = false)
+    {
+        if ($value) {
+            $temporaryPushSubDomains = is_array($value) ? $value : array($value);
+        } else {
+            $temporaryPushSubDomains = array($default);
+        }
+
+        $items = count($value);
+
+        $temporaryPushSubDomains = array_map(function ($value) use (&$items) {
+            $newValue = (substr_count($value, 'http') > 0) ? "\"$value\"" : "\"https://$value\"";
+
+            return --$items > 0 ? "$newValue, ": $newValue;
+        }, $temporaryPushSubDomains);
+
+        $temporaryPushSubDomains = join("", $temporaryPushSubDomains);
+
+        if ($toPrintOut) {
+            echo $temporaryPushSubDomains;
+        }
+
+        return $temporaryPushSubDomains;
     }
 
     /**
@@ -82,7 +114,7 @@ class PackageGenerator
      *
      * @param string $userId User id to create package for.
      * * @param string $clientId Client id to create package for.
-     * @return \JWage\APNS\Safari\Package $package Package instance.
+     * @return Package $package Package instance.
      */
     public function createPushPackageForUser($userId, $clientId)
     {
@@ -92,6 +124,17 @@ class PackageGenerator
         $this->generatePackage($package);
 
         return $package;
+    }
+
+    /**
+     * @param string $packageDir
+     * @param string $userId
+     * @param string $clientId
+     * @return Package
+     */
+    protected function createPackage($packageDir, $userId, $clientId)
+    {
+        return new Package($packageDir, $userId, $clientId);
     }
 
     private function generatePackage(Package $package)
@@ -148,11 +191,11 @@ class PackageGenerator
                 $websiteJson = str_replace('{{ userId }}', $package->getUserId(), $websiteJson);
                 $websiteJson = str_replace('{{ clientId }}', $package->getClientId(), $websiteJson);
                 $websiteJson = str_replace('{{ host }}', $this->host, $websiteJson);
-                $websiteJson = str_replace('{{ pushSubDomain }}', $this->pushSubDomain, $websiteJson);
+                $websiteJson = str_replace('{{ pushSubDomain }}', $this->pushSubDomains, $websiteJson);
                 $websiteJson = str_replace('{{ websiteName }}', $this->websiteName, $websiteJson);
                 $websiteJson = str_replace('{{ websitePushId }}', $this->websitePushId, $websiteJson);
                 $websiteJson = str_replace('{{ webServiceHost }}', $this->webServiceHost, $websiteJson);
-                
+
                 file_put_contents($filePath, $websiteJson);
             }
         }
@@ -161,6 +204,11 @@ class PackageGenerator
     private function createPackageManifest(Package $package)
     {
         return $this->createPackageManifester()->createManifest($package);
+    }
+
+    protected function createPackageManifester()
+    {
+        return new PackageManifester();
     }
 
     private function createPackageSignature(Package $package)
@@ -175,23 +223,8 @@ class PackageGenerator
         return new PackageSigner();
     }
 
-    protected function createPackageManifester()
-    {
-        return new PackageManifester();
-    }
-
     protected function createZipArchive()
     {
         return new ZipArchive();
-    }
-
-    /**
-     * @param string $packageDir
-     * @param string $userId
-     * @param string $clientId
-     */
-    protected function createPackage($packageDir, $userId, $clientId)
-    {
-        return new Package($packageDir, $userId, $clientId);
     }
 }

@@ -2,17 +2,12 @@
 
 namespace JWage\APNS\Tests;
 
-use PHPUnit_Framework_TestCase;
 use JWage\APNS\Payload;
+use PHPUnit\Framework\TestCase;
 
-class PayloadTest extends PHPUnit_Framework_TestCase
+class PayloadTest extends TestCase
 {
     private $payload;
-
-    protected function setUp()
-    {
-        $this->payload = new Payload('title', 'body', 'deep link');
-    }
 
     public function testGetPayload()
     {
@@ -29,5 +24,10 @@ class PayloadTest extends PHPUnit_Framework_TestCase
         );
         $payload = $this->payload->getPayload();
         $this->assertEquals($expectedPayload, $payload);
+    }
+
+    protected function setUp()
+    {
+        $this->payload = new Payload('title', 'body', 'deep link');
     }
 }

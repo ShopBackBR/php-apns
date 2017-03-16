@@ -39,12 +39,12 @@ class APNSMessage
     {
         $encodedPayload = $this->jsonEncode($this->payload->getPayload());
 
-        return chr(0).
-               chr(0).
-               chr(32).
-               pack('H*', $this->deviceToken).
-               chr(0).chr(strlen($encodedPayload)).
-               $encodedPayload;
+        return chr(0) .
+            chr(0) .
+            chr(32) .
+            pack('H*', $this->deviceToken) .
+            chr(0) . chr(strlen($encodedPayload)) .
+            $encodedPayload;
     }
 
     /**

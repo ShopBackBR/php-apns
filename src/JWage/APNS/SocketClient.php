@@ -91,17 +91,6 @@ class SocketClient
     /**
      * @return Resource
      */
-    protected function createStreamContext()
-    {
-        $streamContext = stream_context_create();
-        stream_context_set_option($streamContext, 'ssl', 'local_cert', $this->certificate->writeToTmp());
-
-        return $streamContext;
-    }
-
-    /**
-     * @return Resource
-     */
     protected function createStreamClient()
     {
         $address = $this->getSocketAddress();
@@ -130,5 +119,16 @@ class SocketClient
     protected function getSocketAddress()
     {
         return sprintf('ssl://%s:%s', $this->host, $this->port);
+    }
+
+    /**
+     * @return Resource
+     */
+    protected function createStreamContext()
+    {
+        $streamContext = stream_context_create();
+        stream_context_set_option($streamContext, 'ssl', 'local_cert', $this->certificate->writeToTmp());
+
+        return $streamContext;
     }
 }

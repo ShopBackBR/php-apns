@@ -2,23 +2,14 @@
 
 namespace JWage\APNS\Tests;
 
-use PHPUnit_Framework_TestCase;
 use JWage\APNS\ApnsMessage;
-use JWage\APNS\Certificate;
 use JWage\APNS\Client;
 use JWage\APNS\Payload;
+use PHPUnit\Framework\TestCase;
 
-class ClientTest extends PHPUnit_Framework_TestCase
+class ClientTest extends TestCase
 {
     private $socketClient;
-
-    protected function setUp()
-    {
-        $this->socketClient = $this->getMockBuilder('JWage\APNS\SocketClient')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->client = new ClientStub($this->socketClient);
-    }
 
     public function testSendPayload()
     {
@@ -39,6 +30,14 @@ class ClientTest extends PHPUnit_Framework_TestCase
 
         $payload = new Payload('title', 'body', 'deep link');
         $this->client->sendPayload('97213C2CA2146AF258B098611394FD6943FA730FF65E6797A85D3A0DC713A84C', $payload);
+    }
+
+    protected function setUp()
+    {
+        $this->socketClient = $this->getMockBuilder('JWage\APNS\SocketClient')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->client = new ClientStub($this->socketClient);
     }
 }
 

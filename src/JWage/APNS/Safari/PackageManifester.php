@@ -15,11 +15,11 @@ class PackageManifester
         $manifestData = array();
         foreach (Package::$packageFiles as $rawFile) {
             $filePath = sprintf('%s/%s', $package->getPackageDir(), $rawFile);
-            $manifestData[$rawFile] = sha1(file_get_contents($filePath));
+            $manifestData[ $rawFile ] = sha1(file_get_contents($filePath));
         }
 
         $manifestJsonPath = sprintf('%s/manifest.json', $package->getPackageDir());
-        $manifestJson = json_encode((object) $manifestData);
+        $manifestJson = json_encode((object)$manifestData);
 
         file_put_contents($manifestJsonPath, $manifestJson);
 

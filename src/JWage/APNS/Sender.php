@@ -23,7 +23,7 @@ class Sender
      * Sends a safari website push notification to the given deviceToken.
      *
      * @param string $deviceToken
-     * @param string $title 
+     * @param string $title
      * @param string $body
      * @param string $deepLink
      */
